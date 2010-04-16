@@ -1,0 +1,74 @@
+<html>
+<head>
+</head>
+<script>
+
+var ticketCount = 0;
+var requestTimeout = 1000 * 2;  // 5 seconds
+
+function getRssUrl() {
+    var tracRssUrl = localStorage["tracRssUrl"];
+    return tracRssUrl;
+}
+
+function updateTicketCount()
+{
+    var xhr = new XMLHttpRequest();
+    var abortTimerId = window.setTimeout(function() {
+        xhr.abort();  // synchronously calls onreadystatechange
+    }, requestTimeout);
+
+    function handleSuccess(count) {
+        requestFailureCount = 0;
+        window.clearTimeout(abortTimerId);
+        chrome.browserAction.setBadgeText({text: "" + count});
+    }
+
+    function handleError() {
+        ++requestFailureCount;
+        window.clearTimeout(abortTimerId);
+    }
+
+    try {
+        xhr.onreadystatechange = function(){
+          if (xhr.readyState != 4)
+            return;
+
+          if (xhr.responseXML) {
+            var xmlDoc = xhr.responseXML;
+            fullCountNode = xmlDoc.getElementsByTagName('item').length;
+            if (fullCountNode) {
+              handleSuccess(fullCountNode);
+              return;
+            } else {
+              console.error(chrome.i18n.getMessage("fullCountNode"));
+            }
+          }
+
+          handleError();
+        }
+
+        xhr.onerror = function(error) {
+          handleError();
+        }
+
+        xhr.open("GET", getRssUrl(), true);
+        xhr.send(null);
+      } catch(e) {
+        console.error(chrome.i18n.getMessage("tracker_exception", e));
+      }
+
+}
+
+
+function init()
+{
+    setInterval(updateTicketCount, 60000);
+    updateTicketCount();
+}
+
+
+</script>
+<body onload="init()">
+</body>
+</html>

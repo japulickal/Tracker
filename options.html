@@ -1,0 +1,36 @@
+<html>
+<head><title>Trac Ticket Counter</title></head>
+<script type="text/javascript">
+
+// Saves options to localStorage.
+function save_options() {
+  var select = document.getElementById("iTracRssUrl");
+  var tracRssUrl = select.value;
+  localStorage["tracRssUrl"] = tracRssUrl;
+  chrome.extension.getBackgroundPage().updateTicketCount();
+  // Update status to let user know options were saved.
+  var status = document.getElementById("status");
+  status.innerHTML = "Options Saved.";
+  setTimeout(function() {
+    status.innerHTML = "";
+  }, 750);
+}
+
+// Restores select box state to saved value from localStorage.
+function restore_options() {
+  var tracRssUrl = localStorage["tracRssUrl"];
+  if (!tracRssUrl) {
+    return;
+  }
+  var select = document.getElementById("iTracRssUrl");
+  select.value = tracRssUrl;
+}
+
+</script>
+
+<body onload="restore_options()">
+Trac Rss Feed Url : <input type='text' id='iTracRssUrl' name='tracRssUrl' size=100 />
+<br>
+<button onclick="save_options()">Save</button>
+</body>
+</html>

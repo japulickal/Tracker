@@ -1,0 +1,13 @@
+{
+  "name": "Tracker",
+  "version": "1.0",
+  "description": "Shows the tickets that you have to work.",
+  "options_page": "options.html",
+  "background_page": "background.html",
+  "browser_action": {
+    "default_icon": "trac_banner.png"
+  },
+  "permissions": [
+    "http://trac.internal.plus.net/"
+  ]
+}
