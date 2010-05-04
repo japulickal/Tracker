@@ -8,6 +8,6 @@
     "default_icon": "trac_banner.png"
   },
   "permissions": [
-    "http://trac.internal.plus.net/"
+    "http://*/"
   ]
 }
