@@ -6,6 +6,13 @@
 <script>
 
 /**
+ * Holds the main setInterval Resource.
+ *
+ * @var resource
+ */
+var mainIntervalResource;
+
+/**
  * This function will seconds between the request intervals
  * Function fetchs the data from the local storage. if the data is not
  * available to move to default value of 10 seconds and store that.
@@ -54,7 +61,7 @@ function desktopNotification(xmlDoc) {
 		pubTime = new Date(xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('pubDate')[1].childNodes[0].nodeValue);
 		if (pubTime >= lastRunTime) {
 			var notification = webkitNotifications.createNotification(
-				'images/Trac_Logo_16.png',
+				'/images/Trac_Logo_16.png',
 				'Ticket / Ticket Comment Added',
 				xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('title')[0].childNodes[0].nodeValue
 			);
@@ -96,8 +103,7 @@ function handleError() {
  * Main update function. this function is responsible for fetching
  * the details from the trac url and updating the interface accordingly
  */
-function update()
-{
+function update() {
 	getData(getRssUrl(), handleSuccess, handleError);
 }
 
@@ -108,10 +114,19 @@ function update()
  * This function also calls the update function for initial 
  * details.
  */
-function init()
-{
-	setInterval(update, getRequestInterval());
+function init() {
+	mainIntervalResource = setInterval(update, getRequestInterval());
 	update();
+}
+
+/**
+ * It clears the current main setInterval and call the init function
+ * This function is mainly called for the options page when the refresh time is
+ * changed
+ */
+function reInit() {
+	clearInterval(mainIntervalResource);
+	init();
 }
 </script>
 <body onload="init()">

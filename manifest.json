@@ -5,12 +5,12 @@
 	"options_page"   : "options.html",
 	"background_page": "background.html",
 	"browser_action": {
-		"default_icon": "images/Trac_Logo_16.png"
+		"default_icon": "/images/Trac_Logo_16.png"
 	},
 	"icons": {
-		"16" : "images/Trac_Logo_16.png",
-		"48" : "images/Trac_Logo_48.png",
-		"128": "images/Trac_Logo_128.png"
+		"16" : "/images/Trac_Logo_16.png",
+		"48" : "/images/Trac_Logo_48.png",
+		"128": "/images/Trac_Logo_128.png"
 	},
 	"permissions": [
 		"http://*/",

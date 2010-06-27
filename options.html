@@ -1,5 +1,6 @@
 <html>
 <head><title>Trac Chrome Extension</title></head>
+<link rel="stylesheet" href="/css/stylesheet.css" type="text/css" />
 <script type="text/javascript">
 
 function validate() {
@@ -27,13 +28,16 @@ function saveConfigurations() {
 	localStorage["requestInterval"] = requestInterval * 1000;
 
 	// Update status to let user know options were saved.
-	var status = document.getElementById("status");
-	status.innerHTML = "Options Saved.";
-	setTimeout(function() {
-		status.innerHTML = "";
-	}, 750);
+	document.getElementById("status").innerHTML = "Configuration Saved";
+	document.getElementById("status").style.display = 'block';
+	document.getElementById("status").className = 'success';
 
-	chrome.extension.getBackgroundPage().update();
+	setTimeout(function() {
+		document.getElementById("status").innerHTML = "";
+		document.getElementById("status").style.display = 'none';
+	}, 5000);
+
+	chrome.extension.getBackgroundPage().reInit();
 }
 
 /**
@@ -57,24 +61,35 @@ function restoreConfigurations() {
  */
 function showErrorMessage(elementId, errorMessage) {
 	// Update status to let user know options were saved.
-	var status = document.getElementById("status");
-	status.innerHTML = errorMessage;
+	document.getElementById("status").innerHTML = errorMessage;
+	document.getElementById("status").style.display = 'block';
+	document.getElementById("status").className = 'error';
 
 	setTimeout(function() {
-		status.innerHTML = "";
-	}, 3000);
+		document.getElementById("status").innerHTML = "";
+		document.getElementById("status").style.display = 'none';
+	}, 5000);
 }
 </script>
 
 <body onload="restoreConfigurations()">
-<h1><img src='images/Trac_Logo_48.png' />Trac Chrome Extension</h1>
-<div id='status'></div>
-<dl>
-	<dt>Trac Rss Feed Url :</dt>
-	<dd><input type='text' id='iTracRssUrl' name='tracRssUrl' size='80' /></dd>
-	<dt>Time Between Request In Seconds :</dt>
-	<dd><input type='text' id='iRequestInterval' size='2' /></dd>
-</dl>
-<button onclick="saveConfigurations()">Save</button>
+<h1>Trac Chrome Extension</h1>
+<div id='status' class='success' style='display:none'>Jose Antony</div>
+<div class='mainForm'>
+	<dl>
+		<dt>RSS URL </dt>
+		<dd><input type='text' id='iTracRssUrl' name='tracRssUrl' size='80' /></dd>
+		<dt>Refresh Intervals (Seconds)</dt>
+		<dd><input type='text' id='iRequestInterval' size='2' /></dd>
+		<dt>&nbsp;</dt>
+		<dd>
+			<div class="buttons">
+				<button class="positive" onclick="saveConfigurations()">
+					<img src='/images/success.png' />Save
+				</button>
+			</div>
+		</dd>
+	</dl>
+</div>
 </body>
 </html>
