@@ -6,11 +6,21 @@
 <script>
 
 /**
- * Holds the time between to update request
+ * This function will seconds between the request intervals
+ * Function fetchs the data from the local storage. if the data is not
+ * available to move to default value of 10 seconds and store that.
  *
- * @var int
+ * @return int - Seconds between two request
  */
-var requestInterval = 1000*10;
+function getRequestInterval() {
+	var requestInterval = localStorage["requestInterval"];
+	if (!requestInterval) {
+		requestInterval = 1000*10;
+		localStorage["requestInterval"] = 1000*10;
+	}
+
+	return requestInterval;
+}
 
 /**
  * Function is responsible getting the sttored trac url
@@ -94,13 +104,13 @@ function update()
 /**
  * Main function called when the backgroud page is executed
  * This function register main update function to be called
- * at constant intreval.defined the variable requestIntervals
+ * at constant intreval.returned by the function getRequestInterval
  * This function also calls the update function for initial 
  * details.
  */
 function init()
 {
-	setInterval(update, requestInterval);
+	setInterval(update, getRequestInterval());
 	update();
 }
 </script>
