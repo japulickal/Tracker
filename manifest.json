@@ -1,14 +1,19 @@
 {
-  "name": "Tracker",
-  "version": "1.0",
-  "description": "Shows the tickets that you have to work.",
-  "options_page": "options.html",
-  "background_page": "background.html",
-  "browser_action": {
-    "default_icon": "trac_banner.png"
-  },
-  "permissions": [
-    "http://*/",
-    "notifications"
-  ]
+	"name"           : "Trac Chrome Extension",
+	"version"        : "1.0",
+	"description"    : "Show the number of tickets from a give trac Rss Feed. And also a send a Desktop notification when new comment / ticket added to the report",
+	"options_page"   : "options.html",
+	"background_page": "background.html",
+	"browser_action": {
+		"default_icon": "images/Trac_Logo_16.png"
+	},
+	"icons": {
+		"16" : "images/Trac_Logo_16.png",
+		"48" : "images/Trac_Logo_48.png",
+		"128": "images/Trac_Logo_128.png"
+	},
+	"permissions": [
+		"http://*/",
+		"notifications"
+	]
 }
