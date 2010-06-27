@@ -2,6 +2,7 @@
 <head>
 </head>
 <script type="text/javascript" src="httpRequest.js"></script>
+<script type="text/javascript" src="xmlToArray.js"></script>
 <script>
 
 /**
@@ -9,7 +10,7 @@
  *
  * @var int
  */
-var requestInterval = 1000 * 6;
+var requestInterval = 1000*10;
 
 /**
  * Function is responsible getting the sttored trac url
@@ -22,20 +23,71 @@ function getRssUrl() {
 }
 
 /**
+ * Function to create desktop notification
+ * This function will loop through all the times in the rss feed and check
+ * if the publication time is greater than the lastrun time. if saw 
+ * it will append the details of the ticket to the notification
+ */
+function desktopNotification(xmlDoc) {
+	lastRunTime = localStorage['lastRunTime'];
+
+	if (!lastRunTime) {
+		lastRunTime = new Date();
+	} else {
+		lastRunTime = new Date(lastRunTime);
+	}
+
+	itemCount = xmlDoc.getElementsByTagName('item').length;
+
+	for (count = 0 ; count < itemCount ; count++) {
+
+		pubTime = new Date(xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('pubDate')[1].childNodes[0].nodeValue);
+		if (pubTime >= lastRunTime) {
+			var notification = webkitNotifications.createNotification(
+				'trac_banner.png',
+				'Ticket / Ticket Comment Added',
+				xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('title')[0].childNodes[0].nodeValue
+			);
+	
+			notification.show();
+			//window.setTimeout(notification.cancel(), 6000);
+		}
+	}
+
+	localStorage['lastRunTime'] = new Date();
+}
+
+/**
+ * Function to update the badge in the toolbar according the number of ticket
+ * present in the rss feed
+ */
+function updateCount(xmlDoc) {
+	count = xmlDoc.getElementsByTagName('item').length;
+	chrome.browserAction.setBadgeText({text: "" + count});
+}
+
+/**
+ * Function to be executed when we get data from the url
+ */
+function handleSuccess(xmlDoc) {
+
+	desktopNotification(xmlDoc);
+	updateCount(xmlDoc);
+}
+
+/**
+ * Function to be executed when there is an error in fetch the data
+ */
+function handleError() {
+	//todo need to put the error handling here
+}
+
+/**
  * Main update function. this function is responsible for fetching
  * the details from the trac url and updating the interface accordingly
  */
-function updateTicketCount()
+function update()
 {
-	function handleSuccess(xmlDoc) {
-		count = xmlDoc.getElementsByTagName('item').length;
-		chrome.browserAction.setBadgeText({text: "" + count});
-	}
-
-	function handleError() {
-		//todo need to put the error handling here
-	}
-
 	getData(getRssUrl(), handleSuccess, handleError);
 }
 
@@ -48,8 +100,8 @@ function updateTicketCount()
  */
 function init()
 {
-	setInterval(updateTicketCount, requestInterval);
-	updateTicketCount();
+	setInterval(update, requestInterval);
+	update();
 }
 </script>
 <body onload="init()">
