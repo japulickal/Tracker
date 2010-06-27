@@ -1,73 +1,56 @@
 <html>
 <head>
 </head>
+<script type="text/javascript" src="httpRequest.js"></script>
 <script>
 
-var ticketCount = 0;
-var requestTimeout = 1000 * 2;  // 5 seconds
+/**
+ * Holds the time between to update request
+ *
+ * @var int
+ */
+var requestInterval = 1000 * 6;
 
+/**
+ * Function is responsible getting the sttored trac url
+ * 
+ * @return string - Url from which we need to extract the data
+ */
 function getRssUrl() {
-    var tracRssUrl = localStorage["tracRssUrl"];
-    return tracRssUrl;
+	var tracRssUrl = localStorage["tracRssUrl"];
+	return tracRssUrl;
 }
 
+/**
+ * Main update function. this function is responsible for fetching
+ * the details from the trac url and updating the interface accordingly
+ */
 function updateTicketCount()
 {
-    var xhr = new XMLHttpRequest();
-    var abortTimerId = window.setTimeout(function() {
-        xhr.abort();  // synchronously calls onreadystatechange
-    }, requestTimeout);
+	function handleSuccess(xmlDoc) {
+		count = xmlDoc.getElementsByTagName('item').length;
+		chrome.browserAction.setBadgeText({text: "" + count});
+	}
 
-    function handleSuccess(count) {
-        requestFailureCount = 0;
-        window.clearTimeout(abortTimerId);
-        chrome.browserAction.setBadgeText({text: "" + count});
-    }
+	function handleError() {
+		//todo need to put the error handling here
+	}
 
-    function handleError() {
-        ++requestFailureCount;
-        window.clearTimeout(abortTimerId);
-    }
-
-    try {
-        xhr.onreadystatechange = function(){
-          if (xhr.readyState != 4)
-            return;
-
-          if (xhr.responseXML) {
-            var xmlDoc = xhr.responseXML;
-            fullCountNode = xmlDoc.getElementsByTagName('item').length;
-            if (fullCountNode) {
-              handleSuccess(fullCountNode);
-              return;
-            } else {
-              console.error(chrome.i18n.getMessage("fullCountNode"));
-            }
-          }
-
-          handleError();
-        }
-
-        xhr.onerror = function(error) {
-          handleError();
-        }
-
-        xhr.open("GET", getRssUrl(), true);
-        xhr.send(null);
-      } catch(e) {
-        console.error(chrome.i18n.getMessage("tracker_exception", e));
-      }
-
+	getData(getRssUrl(), handleSuccess, handleError);
 }
 
-
+/**
+ * Main function called when the backgroud page is executed
+ * This function register main update function to be called
+ * at constant intreval.defined the variable requestIntervals
+ * This function also calls the update function for initial 
+ * details.
+ */
 function init()
 {
-    setInterval(updateTicketCount, 60000);
-    updateTicketCount();
+	setInterval(updateTicketCount, requestInterval);
+	updateTicketCount();
 }
-
-
 </script>
 <body onload="init()">
 </body>
