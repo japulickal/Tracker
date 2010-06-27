@@ -44,7 +44,7 @@ function desktopNotification(xmlDoc) {
 		pubTime = new Date(xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('pubDate')[1].childNodes[0].nodeValue);
 		if (pubTime >= lastRunTime) {
 			var notification = webkitNotifications.createNotification(
-				'trac_banner.png',
+				'images/Trac_Logo_16.png',
 				'Ticket / Ticket Comment Added',
 				xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('title')[0].childNodes[0].nodeValue
 			);
