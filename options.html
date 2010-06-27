@@ -1,36 +1,43 @@
 <html>
-<head><title>Trac Ticket Counter</title></head>
+<head><title>Trac Chrome Extension</title></head>
 <script type="text/javascript">
 
-// Saves options to localStorage.
-function save_options() {
-  var select = document.getElementById("iTracRssUrl");
-  var tracRssUrl = select.value;
-  localStorage["tracRssUrl"] = tracRssUrl;
-  chrome.extension.getBackgroundPage().updateTicketCount();
-  // Update status to let user know options were saved.
-  var status = document.getElementById("status");
-  status.innerHTML = "Options Saved.";
-  setTimeout(function() {
-    status.innerHTML = "";
-  }, 750);
+/**
+ * Function to save the configurations
+ */
+function saveConfigurations() {
+
+	var select = document.getElementById("iTracRssUrl");
+	var tracRssUrl = select.value;
+	localStorage["tracRssUrl"] = tracRssUrl;
+
+	// Update status to let user know options were saved.
+	var status = document.getElementById("status");
+	status.innerHTML = "Options Saved.";
+	setTimeout(function() {
+		status.innerHTML = "";
+	}, 750);
+
+	chrome.extension.getBackgroundPage().update();
 }
 
 // Restores select box state to saved value from localStorage.
-function restore_options() {
-  var tracRssUrl = localStorage["tracRssUrl"];
-  if (!tracRssUrl) {
-    return;
-  }
-  var select = document.getElementById("iTracRssUrl");
-  select.value = tracRssUrl;
+function restoreConfigurations() {
+	var tracRssUrl = localStorage["tracRssUrl"];
+	if (!tracRssUrl) {
+		return;
+	}
+	var tracRssUrlTextField = document.getElementById("iTracRssUrl");
+	tracRssUrlTextField.value = tracRssUrl;
 }
 
 </script>
 
-<body onload="restore_options()">
-Trac Rss Feed Url : <input type='text' id='iTracRssUrl' name='tracRssUrl' size=100 />
+<body onload="restoreConfigurations()">
+<h1><img src='images/Trac_Logo_48.png' />Trac Chrome Extension</h1>
+<div id='status'></div>
+Trac Rss Feed Url : <input type='text' id='iTracRssUrl' name='tracRssUrl' size=80 />
 <br>
-<button onclick="save_options()">Save</button>
+<button onclick="saveConfigurations()">Save</button>
 </body>
 </html>
