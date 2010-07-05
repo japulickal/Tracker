@@ -2,7 +2,6 @@
 <head>
 </head>
 <script type="text/javascript" src="httpRequest.js"></script>
-<script type="text/javascript" src="xmlToArray.js"></script>
 <script>
 
 /**
@@ -55,10 +54,14 @@ function desktopNotification(xmlDoc) {
 	}
 
 	itemCount = xmlDoc.getElementsByTagName('item').length;
-
+console.log('=====Item count found==========');
 	for (count = 0 ; count < itemCount ; count++) {
 
-		pubTime = new Date(xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('pubDate')[1].childNodes[0].nodeValue);
+		if (undefined != xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('pubDate')[1]) {
+			pubTime = new Date(xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('pubDate')[1].childNodes[0].nodeValue);
+		} else {
+			pubTime = new Date(xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('pubDate')[0].childNodes[0].nodeValue);
+		}
 		if (pubTime >= lastRunTime) {
 			var notification = webkitNotifications.createNotification(
 				'/images/Trac_Logo_16.png',
@@ -87,15 +90,17 @@ function updateCount(xmlDoc) {
  * Function to be executed when we get data from the url
  */
 function handleSuccess(xmlDoc) {
-
+	console.log('calling the desktopNotification');
 	desktopNotification(xmlDoc);
+	console.log('calling the updateCount'); 
 	updateCount(xmlDoc);
 }
 
 /**
  * Function to be executed when there is an error in fetch the data
  */
-function handleError() {
+function handleError(error) {
+	console.error('XMLHttpRequest request failed'+error);
 	//todo need to put the error handling here
 }
 
@@ -104,6 +109,7 @@ function handleError() {
  * the details from the trac url and updating the interface accordingly
  */
 function update() {
+	console.log('calling the update');
 	getData(getRssUrl(), handleSuccess, handleError);
 }
 

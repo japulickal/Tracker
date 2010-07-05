@@ -7,7 +7,7 @@
 /**
  * @var integer request time out variable
  */
-var requestTimeout = 1000 * 2;
+var requestTimeout = 1000 * 10;
 
 /**
  * This function will fetch data from the given url
