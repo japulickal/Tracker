@@ -1,7 +1,9 @@
 <html>
 <head>
 </head>
-<script type="text/javascript" src="httpRequest.js"></script>
+<script type="text/javascript" src="/httpRequest.js"></script>
+<script type="text/javascript" src="/plugins/trac.js"></script>
+<script type="text/javascript" src="/notificationMessage.js"></script>
 <script>
 
 /**
@@ -53,24 +55,15 @@ function desktopNotification(xmlDoc) {
 		lastRunTime = new Date(lastRunTime);
 	}
 
-	itemCount = xmlDoc.getElementsByTagName('item').length;
-	for (count = 0 ; count < itemCount ; count++) {
+	messages = tracPlugin.getNotificationMessages(xmlDoc, lastRunTime);
+	for(i = 0; i < messages.length ; i++) {
+		var notification = webkitNotifications.createNotification(
+			messages[i].icon,
+			messages[i].title,
+			messages[i].text
+		);
 
-		if (undefined != xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('pubDate')[1]) {
-			pubTime = new Date(xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('pubDate')[1].childNodes[0].nodeValue);
-		} else {
-			pubTime = new Date(xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('pubDate')[0].childNodes[0].nodeValue);
-		}
-		if (pubTime >= lastRunTime) {
-			var notification = webkitNotifications.createNotification(
-				'/images/Trac_Logo_16.png',
-				'Ticket / Ticket Comment Added',
-				xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('title')[0].childNodes[0].nodeValue
-			);
-	
-			notification.show();
-			//window.setTimeout(notification.cancel(), 6000);
-		}
+		notification.show();
 	}
 
 	localStorage['lastRunTime'] = new Date();
@@ -81,7 +74,7 @@ function desktopNotification(xmlDoc) {
  * present in the rss feed
  */
 function updateCount(xmlDoc) {
-	count = xmlDoc.getElementsByTagName('item').length;
+	count = tracPlugin.getCount(xmlDoc);
 	chrome.browserAction.setBadgeText({text: "" + count});
 }
 
