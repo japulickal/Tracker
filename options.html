@@ -1,5 +1,5 @@
 <html>
-<head><title>Trac Chrome Extension</title></head>
+<head><title>Trac</title></head>
 <link rel="stylesheet" href="/css/stylesheet.css" type="text/css" />
 <script type="text/javascript">
 
@@ -73,14 +73,21 @@ function showErrorMessage(elementId, errorMessage) {
 </script>
 
 <body onload="restoreConfigurations()">
-<h1>Trac Chrome Extension</h1>
-<div id='status' class='success' style='display:none'>Jose Antony</div>
+<h1><img src="/images/Trac_Logo_48.png" align='absmiddle'/>Trac Chrome Extension</h1>
+<div id='status' class='success' style='display:none'>Updated</div>
 <div class='mainForm'>
 	<dl>
 		<dt>RSS URL </dt>
-		<dd><input type='text' id='iTracRssUrl' name='tracRssUrl' size='80' /></dd>
+		<dd>
+			<input
+				type='text'
+				id='iTracRssUrl'
+				name='tracRssUrl'
+				class="textbox longtextbox" 
+			/>
+		</dd>
 		<dt>Refresh Intervals (Seconds)</dt>
-		<dd><input type='text' id='iRequestInterval' size='2' /></dd>
+		<dd><input type='text' id='iRequestInterval' size='2' class="textbox smalltextbox"/></dd>
 		<dt>&nbsp;</dt>
 		<dd>
 			<div class="buttons">

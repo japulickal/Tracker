@@ -1,10 +1,30 @@
 .mainForm {
-	background-color: #CFECEC; 
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EEE)); 
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
-	border: 1px solid #000;
 	padding: 10px;
 	margin: 10px 10px;
+	font-size: 15px;
+	font-weight: normal;
+}
+
+.textbox {
+	background-image:url(/images/form_bg.jpg);
+	background-repeat:repeat-x;
+	border:1px solid #d1c7ac;
+	color:#333333;
+	padding:3px;
+	margin-right:4px;
+	margin-bottom:8px;
+	font-family:tahoma, arial, sans-serif;
+}
+
+.longtextbox {
+	width: 600px;
+}
+
+.smalltextbox {
+	width: 60px;
 }
 
 .success, .error, .validation {
@@ -39,10 +59,13 @@ dd {
 }
 
 h1 {
-	background-image:url('/images/Trac_Logo_48.png');
-	background-repeat: no-repeat;
-	background-position: 10px center;
-	padding:20px 10px 15px 60px;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(#EEE)); 
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	padding: 10px;
+	margin: 10px 10px;
+	font-size: 20px;
+	font-weight: normal;
 }
 
 /* BUTTONS */

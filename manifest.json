@@ -1,9 +1,10 @@
 {
-	"name"           : "Trac Chrome Extension",
+	"name"           : "Trac",
 	"version"        : "1.0",
-	"description"    : "Show the number of tickets from a give trac Rss Feed. And also a send a Desktop notification when new comment / ticket added to the report",
+	"description"    : "Google Chrome Trac Plugin",
 	"options_page"   : "options.html",
 	"background_page": "background.html",
+	"minimum_chrome_version": "5.0",
 	"browser_action": {
 		"default_icon": "/images/Trac_Logo_16.png"
 	},
