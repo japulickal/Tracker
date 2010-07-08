@@ -64,9 +64,8 @@ function desktopNotification(xmlDoc) {
 		);
 
 		notification.show();
+		localStorage['lastRunTime'] = new Date();
 	}
-
-	localStorage['lastRunTime'] = new Date();
 }
 
 /**
@@ -110,6 +109,12 @@ function update() {
  * details.
  */
 function init() {
+	chrome.browserAction.onClicked.addListener(
+		function(tab){
+			var url = tracPlugin.getRedirectUrl(getRssUrl());
+			chrome.tabs.create({"url": url})
+		}
+	);
 	mainIntervalResource = setInterval(update, getRequestInterval());
 	update();
 }

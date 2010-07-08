@@ -6,7 +6,8 @@
 	"background_page": "background.html",
 	"minimum_chrome_version": "5.0",
 	"browser_action": {
-		"default_icon": "/images/Trac_Logo_16.png"
+		"default_icon": "/images/Trac_Logo_16.png",
+		"default_title": "Trac Plugin"
 	},
 	"icons": {
 		"16" : "/images/Trac_Logo_16.png",
@@ -15,6 +16,7 @@
 	},
 	"permissions": [
 		"http://*/",
-		"notifications"
+		"notifications",
+		"tabs"
 	]
 }

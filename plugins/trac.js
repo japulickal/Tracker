@@ -45,5 +45,16 @@ var tracPlugin = {
 		}
 		
 		return message;
+	},
+	/**
+	 * function to generated the redirect url from the rss url
+	 * 
+	 * @param rssUrl
+	 * 
+	 * @returns String
+	 */
+	getRedirectUrl: function (rssUrl) {
+		var splitIndex = rssUrl.indexOf('?');
+		return rssUrl.substring(0,splitIndex);
 	}
 };
