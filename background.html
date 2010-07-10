@@ -51,6 +51,7 @@ function desktopNotification(xmlDoc) {
 
 	if (!lastRunTime) {
 		lastRunTime = new Date();
+		localStorage['lastRunTime'] = lastRunTime;
 	} else {
 		lastRunTime = new Date(lastRunTime);
 	}
@@ -109,8 +110,14 @@ function update() {
  * details.
  */
 function init() {
+	if (undefined == getRssUrl()) {
+		chrome.tabs.create({"url": "options.html"});
+	}
 	chrome.browserAction.onClicked.addListener(
 		function(tab){
+			if (undefined == getRssUrl()) {
+				chrome.tabs.create({"url": "options.html"});
+			}
 			var url = tracPlugin.getRedirectUrl(getRssUrl());
 			chrome.tabs.create({"url": url})
 		}

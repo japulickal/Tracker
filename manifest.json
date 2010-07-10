@@ -1,13 +1,13 @@
 {
 	"name"           : "Trac",
 	"version"        : "1.0",
-	"description"    : "Google Chrome Trac Plugin",
+	"description"    : "Google Chrome Trac Extension",
 	"options_page"   : "options.html",
 	"background_page": "background.html",
 	"minimum_chrome_version": "5.0",
 	"browser_action": {
 		"default_icon": "/images/Trac_Logo_16.png",
-		"default_title": "Trac Plugin"
+		"default_title": "Trac Extension"
 	},
 	"icons": {
 		"16" : "/images/Trac_Logo_16.png",

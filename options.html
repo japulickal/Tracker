@@ -4,11 +4,15 @@
 <script type="text/javascript">
 
 function validate() {
+	var tracRssUrl = document.getElementById("iTracRssUrl").value;
+	if ('' == tracRssUrl) {
+		showErrorMessage('iTracRssUrl', 'Rss URL cannot be left blank');
+		return false;
+	}
 	var requestInterval = document.getElementById('iRequestInterval').value;
-
 	var integerRegularExpression = /(^\d+$)/; 
 	if (!(integerRegularExpression.test(requestInterval))) {
-		showErrorMessage('iRequestInterval', 'Interval should a numeric value');
+		showErrorMessage('iRequestInterval', 'Interval should be a numeric value');
 		return false;
 	}
 	return true;
@@ -73,7 +77,7 @@ function showErrorMessage(elementId, errorMessage) {
 </script>
 
 <body onload="restoreConfigurations()">
-<h1><img src="/images/Trac_Logo_48.png" align='absmiddle'/>Trac Chrome Extension</h1>
+<h1><img src="/images/Trac_Logo_48.png" align='absmiddle'/>Trac</h1>
 <div id='status' class='success' style='display:none'>Updated</div>
 <div class='mainForm'>
 	<dl>
