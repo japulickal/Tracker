@@ -1,81 +1,82 @@
 <html>
-<head><title>Trac</title></head>
-<link rel="stylesheet" href="/css/stylesheet.css" type="text/css" />
-<script type="text/javascript">
+<head>
+	<title>Trac</title>
+	<link rel="stylesheet" href="/css/stylesheet.css" type="text/css" />
+	<script type="text/javascript">
 
-function validate() {
-	var tracRssUrl = document.getElementById("iTracRssUrl").value;
-	if ('' == tracRssUrl) {
-		showErrorMessage('iTracRssUrl', 'Rss URL cannot be left blank');
-		return false;
-	}
-	var requestInterval = document.getElementById('iRequestInterval').value;
-	var integerRegularExpression = /(^\d+$)/; 
-	if (!(integerRegularExpression.test(requestInterval))) {
-		showErrorMessage('iRequestInterval', 'Interval should be a numeric value');
-		return false;
-	}
-	return true;
-}
-
-/**
- * Function to save the configurations
- */
-function saveConfigurations() {
-	if (!validate()) {
-		return false;
-	}
-	var tracRssUrl = document.getElementById("iTracRssUrl").value;
-	var requestInterval = document.getElementById('iRequestInterval').value;
-
-	localStorage["tracRssUrl"] = tracRssUrl;
-	localStorage["requestInterval"] = requestInterval * 1000;
-
-	// Update status to let user know options were saved.
-	document.getElementById("status").innerHTML = "Configuration Saved";
-	document.getElementById("status").style.display = 'block';
-	document.getElementById("status").className = 'success';
-
-	setTimeout(function() {
-		document.getElementById("status").innerHTML = "";
-		document.getElementById("status").style.display = 'none';
-	}, 5000);
-
-	chrome.extension.getBackgroundPage().reInit();
-}
-
-/**
- * Restore all the configurations values stored
- */
-function restoreConfigurations() {
-	
-	if (localStorage["tracRssUrl"]) {
-		document.getElementById("iTracRssUrl").value = 
-			localStorage["tracRssUrl"];
+	function validate() {
+		var tracRssUrl = document.getElementById("iTracRssUrl").value;
+		if ('' == tracRssUrl) {
+			showErrorMessage('iTracRssUrl', 'Rss URL cannot be left blank');
+			return false;
+		}
+		var requestInterval = document.getElementById('iRequestInterval').value;
+		var integerRegularExpression = /(^\d+$)/;
+		if (!(integerRegularExpression.test(requestInterval))) {
+			showErrorMessage('iRequestInterval', 'Interval should be a numeric value');
+			return false;
+		}
+		return true;
 	}
 
-	if (localStorage["requestInterval"]) {
-		document.getElementById("iRequestInterval").value = 
-			localStorage["requestInterval"]/1000;
+	/**
+	 * Function to save the configurations
+	 */
+	function saveConfigurations() {
+		if (!validate()) {
+			return false;
+		}
+		var tracRssUrl = document.getElementById("iTracRssUrl").value;
+		var requestInterval = document.getElementById('iRequestInterval').value;
+
+		localStorage["tracRssUrl"] = tracRssUrl;
+		localStorage["requestInterval"] = requestInterval * 1000;
+
+		// Update status to let user know options were saved.
+		document.getElementById("status").innerHTML = "Configuration Saved";
+		document.getElementById("status").style.display = 'block';
+		document.getElementById("status").className = 'success';
+
+		setTimeout(function() {
+			document.getElementById("status").innerHTML = "";
+			document.getElementById("status").style.display = 'none';
+		}, 5000);
+
+		chrome.extension.getBackgroundPage().reInit();
 	}
-}
 
-/**
- * Function to show the error message
- */
-function showErrorMessage(elementId, errorMessage) {
-	// Update status to let user know options were saved.
-	document.getElementById("status").innerHTML = errorMessage;
-	document.getElementById("status").style.display = 'block';
-	document.getElementById("status").className = 'error';
+	/**
+	 * Restore all the configurations values stored
+	 */
+	function restoreConfigurations() {
+		localStorage['isOptionLoadedFirstTime'] = true;
+		if (localStorage["tracRssUrl"]) {
+			document.getElementById("iTracRssUrl").value =
+				localStorage["tracRssUrl"];
+		}
 
-	setTimeout(function() {
-		document.getElementById("status").innerHTML = "";
-		document.getElementById("status").style.display = 'none';
-	}, 5000);
-}
-</script>
+		if (localStorage["requestInterval"]) {
+			document.getElementById("iRequestInterval").value =
+				localStorage["requestInterval"]/1000;
+		}
+	}
 
+	/**
+	 * Function to show the error message
+	 */
+	function showErrorMessage(elementId, errorMessage) {
+		// Update status to let user know options were saved.
+		document.getElementById("status").innerHTML = errorMessage;
+		document.getElementById("status").style.display = 'block';
+		document.getElementById("status").className = 'error';
+
+		setTimeout(function() {
+			document.getElementById("status").innerHTML = "";
+			document.getElementById("status").style.display = 'none';
+		}, 5000);
+	}
+	</script>
+</head>
 <body onload="restoreConfigurations()">
 <h1><img src="/images/Trac_Logo_48.png" align='absmiddle'/>Trac</h1>
 <div id='status' class='success' style='display:none'>Updated</div>
@@ -87,7 +88,7 @@ function showErrorMessage(elementId, errorMessage) {
 				type='text'
 				id='iTracRssUrl'
 				name='tracRssUrl'
-				class="textbox longtextbox" 
+				class="textbox longtextbox"
 			/>
 		</dd>
 		<dt>Refresh Intervals (Seconds)</dt>

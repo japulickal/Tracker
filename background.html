@@ -111,7 +111,10 @@ function update() {
  */
 function init() {
 	if (undefined == getRssUrl()) {
-		chrome.tabs.create({"url": "options.html"});
+		var isOptionLoadedFirstTime = localStorage['isOptionLoadedFirstTime'];
+		if (isOptionLoadedFirstTime != 'true') {
+			chrome.tabs.create({"url": "options.html"});
+		}
 	}
 	chrome.browserAction.onClicked.addListener(
 		function(tab){
