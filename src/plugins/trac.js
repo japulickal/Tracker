@@ -3,6 +3,8 @@
  * 
  * Plugin mainly implements the getCount and getNotificationMessages needed
  * By the main program
+ * 
+ * @author jose antony <joseantony007@gmail.com>
  */
 var tracPlugin = {
 	/**
