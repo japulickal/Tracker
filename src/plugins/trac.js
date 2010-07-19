@@ -39,7 +39,7 @@ var tracPlugin = {
 			}
 			if (pubTime >= lastRunTime) {
 				notificationMessage.text = xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('title')[0].childNodes[0].nodeValue;
-				notificationMessage.icon = '/images/Trac_Logo_16.png';
+				notificationMessage.icon = 'images/Trac_Logo_16.png';
 				notificationMessage.title = 'Ticket / Ticket Comment Added';
 				message[currentMessageCount] = notificationMessage;//xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('title')[0].childNodes[0].nodeValue;
 				currentMessageCount++;
