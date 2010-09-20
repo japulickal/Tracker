@@ -136,7 +136,9 @@ function init() {
  */
 function reInit() {
 	clearInterval(mainIntervalResource);
-	init();
+	//init();
+	mainIntervalResource = setInterval(update, getRequestInterval());
+	update();
 }
 </script>
 <body onload="init()">
