@@ -57,6 +57,7 @@ function desktopNotification(xmlDoc) {
 	}
 
 	messages = tracPlugin.getNotificationMessages(xmlDoc, lastRunTime);
+	lastPubTime = lastRunTime;
 	for(i = 0; i < messages.length ; i++) {
 		var notification = webkitNotifications.createNotification(
 			messages[i].icon,
@@ -65,8 +66,12 @@ function desktopNotification(xmlDoc) {
 		);
 
 		notification.show();
-		localStorage['lastRunTime'] = new Date();
+		if (messages[i].pubTime > lastPubTime) {
+			lastPubTime = messages[i].pubTime;
+		}
+		loopLastPubTime = messages[i].pubTime;
 	}
+	localStorage['lastRunTime'] = lastPubTime;
 }
 
 /**

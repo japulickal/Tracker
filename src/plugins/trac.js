@@ -37,10 +37,11 @@ var tracPlugin = {
 			} else {
 				pubTime = new Date(xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('pubDate')[0].childNodes[0].nodeValue);
 			}
-			if (pubTime >= lastRunTime) {
+			if (pubTime > lastRunTime) {
 				notificationMessage.text = xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('title')[0].childNodes[0].nodeValue;
 				notificationMessage.icon = 'images/Trac_Logo_16.png';
 				notificationMessage.title = 'Ticket / Ticket Comment Added';
+				notificationMessage.pubTime = pubTime;
 				message[currentMessageCount] = notificationMessage;//xmlDoc.getElementsByTagName('item')[count].getElementsByTagName('title')[0].childNodes[0].nodeValue;
 				currentMessageCount++;
 			}
@@ -49,7 +50,7 @@ var tracPlugin = {
 		return message;
 	},
 	/**
-	 * function to generated the redirect url from the rss url
+	 * function to generate the redirect url from the rss url
 	 * 
 	 * @param rssUrl
 	 * 

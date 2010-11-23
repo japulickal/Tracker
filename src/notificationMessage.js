@@ -6,5 +6,6 @@
 var notificationMessage = {
 	title: '',
 	text: '',
-	icon: ''
+	icon: '',
+	pubTime: ''
 };
